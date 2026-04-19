@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit this template
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <form >
+            full name: <input type="text" name="name"><br>
+            email: <input type="email" name="email"><br>
+            age: <input type="number" name="age"><br>
+<!--            password: <input type="password" name="pass">-->
+            Date of Birth: <input type="date" name="dob"><br>
+            entry year <input type="date" name="year"><br>
+            stream:-<br>
+            <input type="checkbox" name="stream" value="Natural">Natural science<br>
+            <input type="checkbox" name="stream" value="Social">Social science <br>
+            <button name="submit" onclick="handleRegister()" >register</button>
+            <button name="submit" onclick="handleUpdate()" >update</button>
+            <button name="submit" onclick="handleSearch()" >search</button>
+            <button name="submit" onclick="handleDelete()" >delete</button>
+            <p class="message" >register</p>
+        </form>
+        <script>
+            const message = document.getElementsByClassName('mesaage');
+            async function handleRegister(){
+                try{
+                    const res = await fetch('http://localhost:8080/Student_registration_system/crud',{
+                        method: 'POST',
+                        hearder: "Content-type: application/json",
+                        body: JSON.stringify({})
+                     });
+                    const data = await res.json();
+                    message.textContent = data.message;
+                }catch(err){
+                    message.textContent = data.message;
+                    console.log(err);
+                }
+            }
+            async function handleUpdate(){
+                try{
+                    const res = await fetch('http://localhost:8080/Student_registration_system/crud',{
+                        method: 'PUT'
+                     });
+                    const data = await res.json();
+                    message.textContent = data.message;
+                }catch(err){
+                    message.textContent = data.message;
+                    console.log(err);
+                }
+            }
+            async function handleSearch(){
+                try{
+                    const res = await fetch('http://localhost:8080/Student_registration_system/crud',{
+                        method: 'GET',
+                        header: "Content-type: application/json",
+                        body: JSON.stringify({})
+                    });
+                    const data = await res.json();
+                    message.textContent = data.message;
+                }catch(err){
+                    message.textContent = data.message;
+                    console.log(err);
+                }
+            }
+            async function handleDelete(){
+                try{
+                    const res = await fetch('http://localhost:8080/Student_registration_system/crud',{
+                        method: 'DELETE'
+                     });
+                    const data = await res.json();
+                    message.textContent = data.message;
+                }catch(err){
+                    message.textContent = data.message;
+                    console.log(err);
+                }
+            }
+        </script>
+    </body>
+</html>
