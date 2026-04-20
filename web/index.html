@@ -20,63 +20,92 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
             stream:-<br>
             <input type="checkbox" name="stream" value="Natural">Natural science<br>
             <input type="checkbox" name="stream" value="Social">Social science <br>
-            <button name="submit" onclick="handleRegister()" >register</button>
-            <button name="submit" onclick="handleUpdate()" >update</button>
-            <button name="submit" onclick="handleSearch()" >search</button>
-            <button name="submit" onclick="handleDelete()" >delete</button>
-            <p class="message" >register</p>
+            <button type="button" onclick="handleRegister()" >register</button>
+            <button type="button" onclick="handleUpdate()" >update</button>
+            <button type="button" onclick="handleSearch()" >search</button>
+            <button type="button" onclick="handleDelete()" >delete</button>
+            <p class="message" ></p>
         </form>
         <script>
-            const message = document.getElementsByClassName('mesaage');
+            
+            const message = document.querySelector('.message');
+
+            function getformdata() {
+                const name = document.querySelector('input[name="name"]').value;
+                const email = document.querySelector('input[name="email"]').value;
+                const age = document.querySelector('input[name="age"]').value;
+                const dob = document.querySelector('input[name="dob"]').value;
+                const year = document.querySelector('input[name="year"]').value;
+
+                // get checked stream
+                const streams = document.querySelectorAll('input[name="stream"]:checked');
+                let stream = "";
+                streams.forEach(s => stream += s.value + " ");
+
+                return { name, email, age, dob, year, stream };
+            }
+            
+            
             async function handleRegister(){
                 try{
-                    const res = await fetch('http://localhost:8080/Student_registration_system/crud',{
+                    const formData=getformdata();
+                    const res = await fetch('http://localhost:8080/Student_registration_system/read_form_data',{
                         method: 'POST',
-                        hearder: "Content-type: application/json",
-                        body: JSON.stringify({})
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(formData)
                      });
                     const data = await res.json();
                     message.textContent = data.message;
                 }catch(err){
-                    message.textContent = data.message;
+//                    message.textContent = data.message;
                     console.log(err);
                 }
             }
             async function handleUpdate(){
                 try{
-                    const res = await fetch('http://localhost:8080/Student_registration_system/crud',{
-                        method: 'PUT'
+                    const formData=getformdata();
+                    const res = await fetch('http://localhost:8080/Student_registration_system/read_form_data',{
+                        method: 'PUT',
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(formData)
                      });
                     const data = await res.json();
                     message.textContent = data.message;
                 }catch(err){
-                    message.textContent = data.message;
+//                    message.textContent = data.message;
                     console.log(err);
                 }
             }
             async function handleSearch(){
                 try{
-                    const res = await fetch('http://localhost:8080/Student_registration_system/crud',{
-                        method: 'GET',
-                        header: "Content-type: application/json",
-                        body: JSON.stringify({})
+                    const res = await fetch('http://localhost:8080/Student_registration_system/read_form_data',{
+                        method: 'GET'
                     });
                     const data = await res.json();
                     message.textContent = data.message;
                 }catch(err){
-                    message.textContent = data.message;
+//                    message.textContent = data.message;
                     console.log(err);
                 }
             }
             async function handleDelete(){
                 try{
-                    const res = await fetch('http://localhost:8080/Student_registration_system/crud',{
-                        method: 'DELETE'
+                    const email = document.querySelector('input[name="email"]').value;
+                    const res = await fetch('http://localhost:8080/Student_registration_system/read_form_data',{
+                        method: 'DELETE',
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ email })
                      });
                     const data = await res.json();
                     message.textContent = data.message;
                 }catch(err){
-                    message.textContent = data.message;
+//                    message.textContent = data.message;
                     console.log(err);
                 }
             }
